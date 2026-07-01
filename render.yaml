@@ -1,12 +1,18 @@
 services:
   - type: web
     name: openai-proxy
-    runtime: image
-    image:
-      url: ghcr.io/berriai/litellm:main-stable
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: standard
+    region: oregon
     envVars:
       - key: PORT
         value: 4000
     numInstances: 1
     healthCheckPath: /health/liveliness
     autoDeploy: true
+    disk:
+      name: disk
+      mountPath: /var/data
+      sizeGB: 50
